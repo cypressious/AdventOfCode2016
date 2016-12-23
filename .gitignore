@@ -1,0 +1,20 @@
+.gradle
+build
+local.properties
+*.iml
+thumbs.db
+
+# IDEA stuff
+/.idea/*
+!/.idea/vcs.xml
+!/.idea/runConfigurations.xml
+!/.idea/runConfigurations
+!/.idea/codeStyleSettings.xml
+!/.idea/inspectionProfiles
+
+*.log
+*.log.1
+out/
+/github-trello-hook.properties
+
+db
