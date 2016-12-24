@@ -15,6 +15,3 @@ thumbs.db
 *.log
 *.log.1
 out/
-/github-trello-hook.properties
-
-db
