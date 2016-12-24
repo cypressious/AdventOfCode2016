@@ -12,12 +12,31 @@ val COMPARATOR =
         compareByDescending<Map.Entry<Char, List<Char>>> { it.value.size }
                 .thenBy { it.key }
 
-data class Room(val letters: String, val id: Int, val checksum: String)
+data class Room(val letters: String, val id: Int, val checksum: String, val text: List<String>)
 
 fun solve(input: String, part1: Boolean) {
     val validRooms = validRooms(input)
 
-    println(validRooms.sumBy(Room::id))
+    if (part1) {
+        println(validRooms.sumBy(Room::id))
+    } else {
+        val index = validRooms
+                .map { (_, id, _, text) ->
+                    text.map { it.toCharArray().map { it.shiftBy(id) }.joinToString("") }
+                }
+                .indexOf(listOf("northpole", "object", "storage"))
+        println(validRooms.elementAtOrNull(index)?.id)
+    }
+}
+
+fun Char.shiftBy(n: Int): Char {
+    val mod = n % 26
+    val shiftedForward = this + mod
+    return if (shiftedForward > 'z') {
+        shiftedForward - 26
+    } else {
+        shiftedForward
+    }
 }
 
 private fun validRooms(input: String): List<Room> = input
@@ -27,7 +46,8 @@ private fun validRooms(input: String): List<Room> = input
 
             val id = parts.last().toInt()
 
-            val letters = parts.dropLast(1)
+            val text = parts.dropLast(1)
+            val letters = text
                     .flatMap { it.toCharArray().toList() }
                     .groupBy { it }
                     .entries
@@ -37,7 +57,7 @@ private fun validRooms(input: String): List<Room> = input
 
             val checksum = line.takeLast(7).substring(1, 6)
 
-            Room(letters, id, checksum)
+            Room(letters, id, checksum, text)
         }
         .filter { (letters, _, checksum) -> letters == checksum }
 
