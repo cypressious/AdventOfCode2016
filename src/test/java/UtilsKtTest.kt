@@ -22,4 +22,5 @@ class UtilsKtTest {
     fun testMd5() {
         assertEquals("000001", MessageDigest.getInstance("MD5").md5("abc3231929").substring(0, 6))
     }
+
 }

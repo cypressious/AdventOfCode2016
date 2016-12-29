@@ -38,8 +38,3 @@ fun MessageDigest.md5(s: String): String {
     }
     return sb.toString()
 }
-
-fun MessageDigest.hash(s: String) {
-    digest(s.toByteArray())
-    return
-}
