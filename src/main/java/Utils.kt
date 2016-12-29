@@ -2,6 +2,13 @@ package utils
 
 import java.security.MessageDigest
 
+private class Foo
+
+fun readResource(name: String) = Foo::class.java
+        .getResourceAsStream("/" + name)
+        .bufferedReader()
+        .use { it.readText() }
+
 inline fun solveAll(f: (String, Boolean) -> Any, vararg inputs: String) {
     inputs.forEach {
         println("Part 1")
@@ -38,3 +45,5 @@ fun MessageDigest.md5(s: String): String {
     }
     return sb.toString()
 }
+
+fun String.splitLines() = split("\n")
