@@ -1,6 +1,7 @@
 package utils
 
 import org.junit.Test
+import java.security.MessageDigest
 import kotlin.test.assertEquals
 
 class UtilsKtTest {
@@ -17,4 +18,8 @@ class UtilsKtTest {
             .map { it.joinToString(",", "[", "]") }
             .joinToString(",")
 
+    @Test
+    fun testMd5() {
+        assertEquals("000001", MessageDigest.getInstance("MD5").md5("abc3231929").substring(0, 6))
+    }
 }

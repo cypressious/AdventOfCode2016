@@ -1,5 +1,7 @@
 package utils
 
+import java.security.MessageDigest
+
 inline fun solveAll(f: (String, Boolean) -> Any, vararg inputs: String) {
     inputs.forEach {
         println("Part 1")
@@ -25,4 +27,19 @@ fun <T> List<T>.window(size: Int, step: Int, wrap: Boolean = false): Sequence<Li
             sub
         }
     }
+}
+
+//http://stackoverflow.com/a/6565597/615306
+fun MessageDigest.md5(s: String): String {
+    val array = digest(s.toByteArray())
+    val sb = StringBuffer()
+    for (i in array.indices) {
+        sb.append(Integer.toHexString(array[i].toInt() and 0xFF or 0x100).substring(1, 3))
+    }
+    return sb.toString()
+}
+
+fun MessageDigest.hash(s: String) {
+    digest(s.toByteArray())
+    return
 }
