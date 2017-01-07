@@ -1,7 +1,6 @@
 package d2
 
-import utils.solveAll
-
+import utils.Day
 
 val input = """DLRRRRLRLDRRRURRURULRLLULUURRRDDLDULDULLUUDLURLURLLDLUUUDUUUULDRDUUDUDDRRLRDDDUDLDLLRUURDRULUULRLRDULULLRLRLRLDRLUULDLDDDDRRLRUUUDDRURRULLLRURLUURULLRLUDDLDRUULDRURULRRRLLLRDLULDRRDDUDLURURLDULDRDRLDDUURRDUDDRDUURDULDUURDUDRDRULDUDUULRRULUUURDUURUDLDURDLRLURUUDRRDLRUDRULRURLDLLDLLRRDRDRLRRRULDRRLDUURLUUDLUUDDLLRULRDUUDURURLUURDRRRUDLRDULRRRLDRDULRUUDDDLRDUULDRLLDRULUULULRDRUUUULULLRLLLRUURUULRRLDDDRULRRRUDURUR
 RULRUUUDLLUDURDRDDLLRLLUDRUDDRLRRDLDLDRDULDLULURDLUDDDUULURLDRUUURURLLRRDDDUUDRLRLLDLDRDDDRDUDLRDRDLLLDDLDUDDRUDUUDLLLLLDULRLURRRLLURUUULUDRLRLRLURRDRLLLRLLULRLLLDDLRLRDLUUUUUDULULDDULLUDUURDLRUDLRUDLRLLRLDLULRLDUDRURURDLRULDLULULDLLDLDLDLLLUDUDDLRLRRDULLUDRDDLLLDUURDULUDURLLLDRUDDDLRLULDLDRRDDDRDULDDUDRDDULLULRRLRUULRDUDURUDULUDUDURLDRDUUDDRRLRURDRRLRDDDDRUDLUDLDDLRDLUUDLRRURDDLURDLRDLLRDRDLDLDUUUURULUULDDDDLDULUURRRULUDLLLDRULDRURL
@@ -14,12 +13,19 @@ RRDDD
 LURDL
 UUUUD"""
 
-val DIGITS = """
+fun main(args: Array<String>) = Day2()
+
+object Day2 : Day({
+    +::testInput
+    +::input
+}) {
+
+    val DIGITS = """
 123
 456
 789""".trimMargin().split("\n")
 
-val DIGITS2 = """
+    val DIGITS2 = """
   1
  234
 56789
@@ -27,29 +33,27 @@ val DIGITS2 = """
   D
 """.trimMargin().split("\n")
 
-val DIRS = mapOf('U' to (0 to -1), 'R' to (1 to 0), 'D' to (0 to 1), 'L' to (-1 to 0))
+    val DIRS = mapOf('U' to (0 to -1), 'R' to (1 to 0), 'D' to (0 to 1), 'L' to (-1 to 0))
 
-fun main(args: Array<String>) {
-    solveAll(::solve, testInput, input)
-}
+    override fun solve(input: List<String>, part1: Boolean): Any {
+        val digits = if (part1) DIGITS else DIGITS2
 
-fun solve(input: String, part1: Boolean) {
-    val digits = if (part1) DIGITS else DIGITS2
+        var x = if (part1) 1 else 0
+        var y = if (part1) 1 else 2
+        var code = ""
 
-    var x =  if (part1) 1 else 0
-    var y = if (part1) 1 else 2
-    var code = ""
+        input.forEach {
+            for (c in it) {
+                val (dx, dy) = DIRS[c]!!
+                val nextDigit = digits.elementAtOrNull(y + dy)?.elementAtOrNull(x + dx)
+                if (nextDigit == null || nextDigit == ' ') continue
 
-    input.split("\n").forEach {
-        for (c in it) {
-            val (dx, dy) = DIRS[c]!!
-            val nextDigit = digits.elementAtOrNull(y + dy)?.elementAtOrNull(x + dx)
-            if (nextDigit == null || nextDigit == ' ') continue
-
-            x += dx
-            y += dy
+                x += dx
+                y += dy
+            }
+            code += digits[y][x]
         }
-        code += digits[y][x]
+
+        return code
     }
-    println(code)
 }

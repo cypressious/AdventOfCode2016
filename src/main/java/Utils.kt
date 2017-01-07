@@ -1,6 +1,43 @@
 package utils
 
 import java.security.MessageDigest
+import kotlin.reflect.KCallable
+
+abstract class Day(inputs: Day.() -> Unit) {
+    val inputs = mutableListOf<Pair<String?, String>>()
+
+    init {
+        inputs()
+    }
+
+    operator fun String.unaryPlus() = +(null to this)
+
+    @Suppress("UNCHECKED_CAST")
+    operator fun KCallable<String>.unaryPlus() = +(name to (this as () -> String).invoke())
+
+    operator fun Pair<String?, String>.unaryPlus() = inputs.add(this)
+
+    fun res(name: String) = name to readResource(name)
+
+    operator fun invoke() {
+        inputs.forEach {
+            val name = it.first ?: it.second.take(10).takeWhile { it != '\n' } + "..."
+            println("""Input: "$name"""")
+            println("Part 1:")
+            println(solve(it.second, true))
+            println("Part 2:")
+            println(solve(it.second, false))
+            println()
+        }
+    }
+
+    open fun String.split(): List<String> = splitLines()
+
+    open fun solve(input: String, part1: Boolean) = solve(input.split(), part1)
+
+    open fun solve(input: List<String>, part1: Boolean): Any? = ""
+}
+
 
 private class Foo
 
@@ -46,4 +83,4 @@ fun MessageDigest.md5(s: String): String {
     return sb.toString()
 }
 
-fun String.splitLines() = split("\n")
+fun String.splitLines() = split("\\r?\\n".toRegex())
