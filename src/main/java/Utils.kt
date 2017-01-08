@@ -46,14 +46,7 @@ fun readResource(name: String) = Foo::class.java
         .bufferedReader()
         .use { it.readText() }
 
-inline fun solveAll(f: (String, Boolean) -> Any, vararg inputs: String) {
-    inputs.forEach {
-        println("Part 1")
-        f(it, true)
-        println("Part 2")
-        f(it, false)
-    }
-}
+fun String.splitLines() = split("\\r?\\n".toRegex())
 
 fun <T> List<T>.window(size: Int, step: Int, wrap: Boolean = false): Sequence<List<T>> {
     require(size > 0)
@@ -83,4 +76,3 @@ fun MessageDigest.md5(s: String): String {
     return sb.toString()
 }
 
-fun String.splitLines() = split("\\r?\\n".toRegex())
